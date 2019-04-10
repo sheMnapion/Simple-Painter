@@ -5,7 +5,7 @@
 class Parser(object):
     """Parser class"""
     operations=["resetCanvas","saveCanvas","setColor","drawLine","drawPolygon",
-        "drawEllipse","drawCurve","translate","rotate","scale","clip"]
+        "drawEllipse","drawCurve","translate","rotate","scale","clip","show"]
     waitSecondLine=False
     waitFor=-1
     waitPara=-1
@@ -98,10 +98,10 @@ class Parser(object):
             print e
             return (False,-1,-1,-1,-1,-1,-1)
         if algorithm not in algorithms:
-            print "Unknown algorithm! We only support:",
+            print "\033[32mUnknown algorithm! We only support:",
             for alg in algorithms:
                 print alg,
-            print
+            print "\033[0m"
             return (False,-1,-1,-1,-1,-1,-1)
         return (True,id,x1,y1,x2,y2,algorithm)
 
@@ -123,10 +123,10 @@ class Parser(object):
             print e
             return (False,-1,-1,-1)
         if algorithm not in algorithms:
-            print "Unknown algorithm! We only support:",
+            print "\033[32mUnknown algorithm! We only support:",
             for alg in algorithms:
                 print alg,
-            print
+            print "\033[0m"
             return (False,-1,-1,-1)
         return (True,id,polyEdgeCount,algorithm)
 
@@ -148,10 +148,10 @@ class Parser(object):
             print e
             return (False,-1,-1,-1)
         if algorithm not in algorithms:
-            print "Unknown algorithm! We only support:",
+            print "\033[32mUnknown algorithm! We only support:",
             for alg in algorithms:
                 print alg,
-            print
+            print "\033[0m"
             return (False,-1,-1,-1)
         return (True,id,controlPointCount,algorithm)
 
@@ -273,15 +273,15 @@ class Parser(object):
             print e
             return (False,-1,-1,-1,-1,-1,-1)
         if algorithm not in algorithms:
-            print "Unknown algorithm! We only support:",
+            print "\033[32mUnknown algorithm! We only support:",
             for alg in algorithms:
                 print alg,
-            print
+            print "\033[0m"
             return (False,-1,-1,-1)
         x1,y1,x2,y2=points
         return (True,id,x1,y1,x2,y2,algorithm)
 
-    def analyzeLine(self,userLine):
+    def analyzeLine(self,userLine,panel):
         """Analyze user input
             and return the draw information
         """
@@ -299,22 +299,22 @@ class Parser(object):
             if lexicals[0]=='resetCanvas':
                 state,w,h=self.resetCanvasAnalysis(lexicals)
                 if state is True:
-                    print "Accepted!"
+                    panel.resetCanvas(w,h)
                     self.clearWaitState()            
             elif lexicals[0]=='saveCanvas':
                 state, name=self.saveCanvasAnalysis(lexicals)
                 if state is True:
-                    print "Accepted!"
+                    panel.saveCanvas(name)
                     self.clearWaitState()
             elif lexicals[0]=='setColor':
                 state, R, G, B=self.setColorAnalysis(lexicals)
                 if state is True:
-                    print "Accepted!"
+                    panel.setColor(R,G,B)
                     self.clearWaitState()
             elif lexicals[0]=='drawLine':
                 state, id, x1, y1, x2, y2, algorithm=self.drawLineAnalysis(lexicals)
                 if state is True:
-                    print "Accepted!"
+                    panel.drawLine(id,x1,y1,x2,y2,algorithm,useLib=True)
                     self.clearWaitState()
             elif lexicals[0]=='drawPolygon':
                 state, id, edgeCount, algorithm=self.drawPolygonFirstLineAnalysis(lexicals)
@@ -353,6 +353,8 @@ class Parser(object):
                 if state is True:
                     print "Accepted!"
                     self.clearWaitState()
+            elif lexicals[0]=='show':
+                panel.display()
         else:
             if self.waitFor=="polygon":
                 state,points=self.drawPolygonSecondLineAnalysis(lexicals)

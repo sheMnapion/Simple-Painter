@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 import sys
 from parser import *
+from panel import *
 
 print "This is my command line interface for graph operations"
 usage="USAGE: ./main.py [input_file]"
 args=sys.argv
 parser=Parser()
+panel=Panel()
 if len(args)==1:
     print "Start operating based on your keyboard input..."
     try:
@@ -14,7 +16,7 @@ if len(args)==1:
                 userInput=raw_input(">> ")
             else:
                 userInput=raw_input(".. ")
-            parser.analyzeLine(userInput)
+            parser.analyzeLine(userInput,panel)
     except EOFError as e:
         print "Thanks for using."
         exit(0)
@@ -28,6 +30,6 @@ elif len(args)==2:
         exit(1)
     lines=f.readlines()
     for l in lines:
-        parser.analyzeLine(l)
+        parser.analyzeLine(l,panel)
 else:
     print usage
