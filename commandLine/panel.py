@@ -23,6 +23,14 @@ class Panel(object):
         fileName=fileName+'.bmp'
         cv.imwrite(fileName,self.canvas)
     
+    def checkInBound(self,value,checkEdge):
+        """check whether the point input is valid"""
+        assert(checkEdge==0 or checkEdge==1)
+        if checkEdge==0: # width
+            assert(value>=0 and value<self.w)
+        else:
+            assert(value>=0 and value<self.h)
+
     def setColor(self,r,g,b):
         self.drawColor=[b,g,r] # opencv stores everything in BGR order
     
@@ -68,6 +76,12 @@ class Panel(object):
             return
         y1=self.h-y1
         y2=self.h-y2
+        try:
+            self.checkInBound(x1,0); self.checkInBound(x2,0)
+            self.checkInBound(y1,1); self.checkInBound(y2,1)
+        except AssertionError as e:
+            print "\033[31m Some value is out of bound! Please check your input"
+            return
         if useLib==True:
             cv.line(self.canvas,(int(x1),int(y1)),(int(x2),int(y2)),self.drawColor,1)
             return
