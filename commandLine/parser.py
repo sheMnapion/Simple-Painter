@@ -86,7 +86,7 @@ class Parser(object):
         """Analyze input for drawLine
             return (state,id,x1,y1,x2,y2,algorithm)
         """
-        algorithms=["DDA","Bresenham","Naive"]
+        algorithms=["DDA","Bresenham","Lib"]
         if len(lexicals)!=7:
             self.paraErrorDisplay("drawLine",6,len(lexicals)-1)
             return (False,-1,-1,-1,-1,-1,-1)
@@ -314,7 +314,10 @@ class Parser(object):
             elif lexicals[0]=='drawLine':
                 state, id, x1, y1, x2, y2, algorithm=self.drawLineAnalysis(lexicals)
                 if state is True:
-                    panel.drawLine(id,x1,y1,x2,y2,algorithm,useLib=True)
+                    if algorithm=='Lib':
+                        panel.drawLine(id,x1,y1,x2,y2,algorithm,useLib=True)
+                    else:
+                        panel.drawLine(id,x1,y1,x2,y2,algorithm,useLib=False)
                     self.clearWaitState()
             elif lexicals[0]=='drawPolygon':
                 state, id, edgeCount, algorithm=self.drawPolygonFirstLineAnalysis(lexicals)
