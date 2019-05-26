@@ -4,7 +4,7 @@ drawLine 5 7 39 93 71 DDA
 show
 saveCanvas output_1
 setColor 0 162 232
-drawLine 233 96 35 15 58 DDA
+drawLine 233 96 35 15 58 Bresenham
 show
 saveCanvas output_2
 clip 5 33 10 70 58 Cohen-Sutherland
