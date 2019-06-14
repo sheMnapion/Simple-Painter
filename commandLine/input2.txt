@@ -15,5 +15,23 @@ drawLine 5 199 199 99 0 Bresenham
 drawLine 6 99 0 0 199 Bresenham
 drawLine 7 0 199 199 99 Bresenham
 drawLine 8 199 99 0 0 Bresenham
-show
 saveCanvas brasenhamHectogon
+setColor 0 0 255
+drawEllipse 9 100 100 40 30
+scale 9 100 100 0.4
+scale 9 100 100 2.5
+saveCanvas addEllipse
+clip 1 100 100 199 199 Cohen-Sutherland
+clip 2 100 100 199 199 Cohen-Sutherland
+clip 3 100 100 199 199 Cohen-Sutherland
+clip 4 100 100 199 199 Cohen-Sutherland
+clip 5 100 100 199 199 Cohen-Sutherland
+clip 6 100 100 199 199 Cohen-Sutherland
+clip 7 100 100 199 199 Cohen-Sutherland
+clip 8 100 100 199 199 Cohen-Sutherland
+saveCanvas afterClipping
+resetCanvas 200 200
+drawPolygon 1 8 Bresenham
+0 0 99 199 199 0 0 99 199 199 99 0 0 199 199 99
+scale 1 9 99 0.4
+show

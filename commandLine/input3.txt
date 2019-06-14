@@ -1,0 +1,45 @@
+resetCanvas 500 500
+setColor 255 0 0
+drawLine 12 100 0 300 423 DDA
+setColor 0 255 0
+drawLine 13 0 100 300 424 Lib
+setColor 0 0 255
+drawLine 14 100 100 300 425 Bresenham
+resetCanvas 200 200
+setColor 255 0 0
+drawLine 1 0 0 99 199 Bresenham
+drawLine 2 99 199 199 0 Bresenham
+drawLine 3 199 0 0 99 Bresenham
+drawLine 4 0 99 199 199 Bresenham
+drawLine 5 199 199 99 0 Bresenham
+drawLine 6 99 0 0 199 Bresenham
+drawLine 7 0 199 199 99 Bresenham
+drawLine 8 199 99 0 0 Bresenham
+drawLine 9 0 49 199 49 Bresenham
+drawLine 10 49 0 49 199 Bresenham
+saveCanvas brasenhamHectogon
+setColor 0 0 255
+drawEllipse 11 100 100 40 30
+scale 11 100 100 0.4
+scale 11 100 100 2.5
+saveCanvas addEllipse
+clip 1 49 49 199 199 Liang-Barsky
+clip 2 49 49 199 199 Liang-Barsky
+clip 3 49 49 199 199 Liang-Barsky
+clip 4 49 49 199 199 Liang-Barsky
+clip 5 49 49 199 199 Liang-Barsky
+clip 6 49 49 199 199 Liang-Barsky
+clip 7 49 49 199 199 Liang-Barsky
+clip 8 49 49 199 199 Liang-Barsky
+clip 9 49 49 199 199 Liang-Barsky
+clip 1 49 49 149 199 Liang-Barsky
+clip 2 49 49 149 199 Liang-Barsky
+clip 3 49 49 149 199 Liang-Barsky
+clip 4 49 49 149 199 Liang-Barsky
+clip 5 49 49 149 199 Liang-Barsky
+clip 6 49 49 149 199 Liang-Barsky
+clip 7 49 49 149 199 Liang-Barsky
+clip 8 49 49 149 199 Liang-Barsky
+clip 10 49 49 149 199 Liang-Barsky
+show
+saveCanvas afterClipping
