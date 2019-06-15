@@ -156,7 +156,8 @@ class PanelWindow(QMainWindow):
         """save canvas to a bmp file"""
         fileName, fileFormat=QFileDialog().getSaveFileName(self,"Save Image","untitled","bitmap(*.bmp)")
         if fileName!='': # do save
-            fileName=fileName.decode()
+            print(fileName)
+            # fileName=fileName.decode()
             if fileName[-4:]!='.bmp':
                 fileName+='.bmp'
             pic=self.backPanel.getPic()
@@ -186,6 +187,7 @@ class PanelWindow(QMainWindow):
     def initUI(self):
         """initialize UI settings"""
         self.setWindowTitle("Lac Python Simple Painter v1.0")
+        self.setWindowIcon(QIcon("trial.ico"))
 
         self.mainCanvas=DisplayLabel(self)
         self.mainCanvas.setScaledContents(True)

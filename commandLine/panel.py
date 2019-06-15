@@ -11,13 +11,14 @@ import time
 class Panel(object):
     """Class panel for drawing"""
     
-    def __init__(self):
+    def __init__(self,outputDir='./'):
         self.w=100
         self.h=100
         self.drawColor=[0,0,0]
         self.elements={} # no installed elements
         self.canvas=np.ones((100,100,3),dtype=np.uint8)*255
         self.sync=True
+        self.outputDir=outputDir
 
     def deleteElement(self,deleteID):
         """delete an element from canvas
@@ -48,7 +49,7 @@ class Panel(object):
         """save the canvas of present object, so if not synced, draw now"""
         if self.sync==False:
             self._drawOnCanvas()
-        fileName=fileName+'.bmp'
+        fileName=self.outputDir+fileName+'.bmp'
         cv.imwrite(fileName,self.canvas)
     
     def checkInBound(self,value,checkEdge):
