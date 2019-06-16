@@ -1,5 +1,6 @@
 import numpy as np
 import cv2 as cv
+# import matplotlib.pyplot as plt
 
 class Ellipse(object):
     def __init__(self,id,x,y,rx,ry,color):
@@ -18,13 +19,14 @@ class Ellipse(object):
         yStart=int(np.round(self.centerY+self.b))
         a=self.a
         b=self.b
-        xEnd=int(np.round(xStart+float(a*a)/np.sqrt(a*a+b*b)))
+        xEnd=int(xStart+float(a*a)/np.sqrt(a*a+b*b))
         p=b*b+(a*a/4.0)-a*a*b
         # print(p)
         if actuallyDraw==True:
             pic[xStart][yStart]=self.color
         y=yStart
-        # print xStart, yStart, xEnd
+        # print('XStart: %d YStart: %d' % (xStart, yStart))
+        # print("Truly drawing: %d" % (actuallyDraw))
         points=[(xStart,yStart)] # record the drawn points
         for x in range(xStart+1,xEnd+1):
             # print "P value now: %.3f" % p
@@ -32,34 +34,35 @@ class Ellipse(object):
                 if actuallyDraw==True:
                     pic[x][y]=self.color
                 points.append([x,y])
-                p=p+3*b*b+2*b*b*(x-xStart)
+                p=p+3*b*b+2*b*b*int(x-xStart)
             else:
                 y-=1
                 if actuallyDraw==True:
                     pic[x][y]=self.color
                 points.append([x,y])
-                p=p+3*b*b+2*b*b*(x-xStart)+2*a*a-2*a*a*(y-self.centerY)
-        # now point at (x,y)
-        # print "XEnd: %.3f" % xEnd
-        # print "Now at (%d,%d)" % (x,y)
-        # print "a: %.3f b:%.3f" % (a,b)
-        # print "Center: %.3f %.3f" % (self.centerX,self.centerY)
+                p=p+3*b*b+2*b*b*int(x-xStart)+2*a*a-2*a*a*(y-self.centerY+1)
+        # plt.imshow(pic); plt.show()
         assert(x==xEnd)
+        # print("Now at (%d.%d)" % (x,y))
         p=b*b*(x-self.centerX+0.5)**2+a*a*(y-self.centerY)**2-a*a*b*b     
-        yEnd=int(np.ceil(self.centerY))
+        yEnd=int(self.centerY)
         yStart=y-1
+        # print("YRange now: (%d->%d)" % (yStart,yEnd))
+        # print('P at pivot: %.3f' % p)
         for y in range(yStart,yEnd-1,-1):
+            # print('P at y %d: %.3f' % (y,p))
             if p<0:
                 x+=1
                 if actuallyDraw==True: 
                     pic[x][y]=self.color
                 points.append([x,y])
-                p=p+3*a*a-2*a*a*(y-self.centerY)+2*b*b+2*b*b*(x-self.centerX)
+                p=p+3*a*a-2*a*a*(y-self.centerY)+2*b*b+2*b*b*(x-self.centerX-1)
             else:
                 if actuallyDraw==True: 
                     pic[x][y]=self.color
                 points.append([x,y])
-                p=p+3*a*a-2*a*a*(y-self.centerY)
+                p=p+3*a*a-2*a*a*(y-self.centerY+1)
+        # plt.imshow(pic); plt.show()
         return points
 
     def draw(self,pic):
@@ -74,10 +77,10 @@ class Ellipse(object):
             # change x and y axis to enable standard drawing process
             self.a, self.b=(self.b,self.a)
             points=self._standardDraw(pic,actuallyDraw=False)
-            points=[(self.centerX+p[1]-self.centerY-1,self.centerY+p[0]-self.centerX) for p in points]
+            points=[(self.centerX+p[1]-self.centerY,self.centerY+p[0]-self.centerX) for p in points]
             for p in points:
-                x=int(np.round(p[0]))
-                y=int(np.round(p[1]))
+                x=int(p[0])
+                y=int(p[1])
                 pic[x][y]=self.color
             self.a, self.b=(self.b,self.a)
         self.points=[p for p in points]
